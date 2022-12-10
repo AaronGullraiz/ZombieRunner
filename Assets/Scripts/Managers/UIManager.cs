@@ -49,18 +49,23 @@ public class UIManager : MonoBehaviour
                 {
                     menus.SetActive(false);
                     gameplayUI.SetActive(true);
+
+                    GameManager.Instance.isPlayingGame = true;
+                    GameManager.Instance.player.SetFirstWaypoint(GameManager.Instance.waypoint[0]);
                     break;
                 }
             case "Pause":
                 {
                     gameplayUI.SetActive(false);
                     pauseMenu.SetActive(true);
+                    GameManager.Instance.isPlayingGame = false;
                     break;
                 }
             case "Resume":
                 {
                     pauseMenu.SetActive(false);
                     gameplayUI.SetActive(true);
+                    GameManager.Instance.isPlayingGame = true;
                     break;
                 }
             case "End":

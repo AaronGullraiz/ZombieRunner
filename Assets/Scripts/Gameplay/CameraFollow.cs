@@ -6,8 +6,12 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform player;
 
-    void Update()
+    public Vector3 offset;
+
+    public float followSpeed;
+
+    void LateUpdate()
     {
-        
+        transform.position = Vector3.MoveTowards(transform.position, player.position + offset, Time.deltaTime*followSpeed);
     }
 }

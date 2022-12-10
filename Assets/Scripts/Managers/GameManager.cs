@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
 
     public EnvironmentSpawner environmentSpawner;
 
+    public PlayerController player;
+
+    public List<Transform> waypoint;
+
+    public bool isPlayingGame;
 
     #region Instance
 
@@ -20,4 +25,10 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    public Transform GetNextWaypoint()
+    {
+        waypoint.Remove(waypoint[0]);
+        return waypoint[0];
+    }
 }
