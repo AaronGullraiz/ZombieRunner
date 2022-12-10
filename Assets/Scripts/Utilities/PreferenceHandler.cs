@@ -39,4 +39,9 @@ public static class PreferenceHandler
             PlayerPrefs.SetFloat("Distance", value);
         }
     }
+
+    public static void SavePrefs()
+    {
+        PlayerPrefs.Save();
+    }
 }

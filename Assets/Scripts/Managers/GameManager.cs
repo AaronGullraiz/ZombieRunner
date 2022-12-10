@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public List<Transform> waypoint;
 
+    public ZombiesSpawner zombieSpawner;
+
     public bool isPlayingGame;
 
     #region Instance
@@ -30,5 +32,10 @@ public class GameManager : MonoBehaviour
     {
         waypoint.Remove(waypoint[0]);
         return waypoint[0];
+    }
+
+    private void OnDisable()
+    {
+        PreferenceHandler.SavePrefs();
     }
 }
