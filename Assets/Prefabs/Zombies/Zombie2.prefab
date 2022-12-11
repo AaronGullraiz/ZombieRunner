@@ -47,7 +47,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4194708194867534960
 Transform:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9045871986312418306
 Transform:
   m_ObjectHideFlags: 0
@@ -401,7 +401,7 @@ SkinnedMeshRenderer:
   m_GameObject: {fileID: 3381862083065634139}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -411,7 +411,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1653191794034229520, guid: 01302639c1669454aac4996f92f058bd, type: 3}
+  - {fileID: 2100000, guid: 464e75e740c114d4cb208b2af776c598, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -680,7 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ZombieType: 1
   anim: {fileID: 2257297128113930481}
-  speed: 0.01
+  speed: 0.001
   damage: 15
 --- !u!65 &1858737035688052036
 BoxCollider:
