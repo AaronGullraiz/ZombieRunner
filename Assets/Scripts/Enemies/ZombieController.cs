@@ -8,6 +8,8 @@ public class ZombieController : MonoBehaviour
     public Animator anim;
     public float speed,damage;
 
+    public Collider collider;
+
     private bool isAlive = true, isAttacking;
 
     void Update()
@@ -32,8 +34,19 @@ public class ZombieController : MonoBehaviour
     {
         if(isAlive && other.CompareTag("Player"))
         {
-            isAttacking = true ;
+            isAttacking = true;
             anim.SetInteger("State", (int)AnimationState.ATTACK);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isAlive && collision.gameObject.CompareTag("Bullet"))
+        {
+            isAlive = false;
+            Destroy(collision.transform.parent.gameObject);
+            anim.SetInteger("State", (int)AnimationState.DEATH);
+            collider.enabled = false;
         }
     }
 

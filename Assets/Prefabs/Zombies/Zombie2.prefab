@@ -623,6 +623,7 @@ GameObject:
   - component: {fileID: 6584440138275772136}
   - component: {fileID: 1858737035688052036}
   - component: {fileID: 2086405292822176941}
+  - component: {fileID: 73423191397578516}
   m_Layer: 0
   m_Name: Zombie2
   m_TagString: Untagged
@@ -682,6 +683,7 @@ MonoBehaviour:
   anim: {fileID: 2257297128113930481}
   speed: 0.001
   damage: 15
+  collider: {fileID: 73423191397578516}
 --- !u!65 &1858737035688052036
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -711,6 +713,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &73423191397578516
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5693827641225082192}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.75
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &6869374699297874868
 GameObject:
   m_ObjectHideFlags: 0

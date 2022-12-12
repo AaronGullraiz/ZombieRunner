@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public bool isPlayingGame;
 
+    public Transform bulletsParent;
+
     #region Instance
 
     public static GameManager Instance;

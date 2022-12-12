@@ -654,6 +654,7 @@ GameObject:
   - component: {fileID: 4688958833682891726}
   - component: {fileID: 8768837689205155563}
   - component: {fileID: 772218332990336385}
+  - component: {fileID: 3898064430770220968}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Untagged
@@ -688,7 +689,7 @@ Animator:
   m_GameObject: {fileID: 6158298994190344310}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f4f97987e0387ea41b1d2dadf7234c50, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6b5a0ae0afd67b04ab615e8f1e8e9b80, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -709,10 +710,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde966993d704894da68122988598e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZombieType: 0
+  ZombieType: 1
   anim: {fileID: 369754333381957079}
-  speed: 0
+  speed: 0.001
   damage: 10
+  collider: {fileID: 3898064430770220968}
 --- !u!54 &8768837689205155563
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -742,6 +744,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 3}
   m_Center: {x: 0, y: 1, z: 4}
+--- !u!136 &3898064430770220968
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6158298994190344310}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.7
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &6998575410499284211
 GameObject:
   m_ObjectHideFlags: 0

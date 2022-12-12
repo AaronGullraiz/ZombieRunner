@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
 
     public Animator playerAnimator;
 
+    public Transform bulletSpawnPosition;
+    public GameObject bullet;
+
     private bool isAlive = true;
     private Transform player;
 
@@ -15,6 +18,11 @@ public class PlayerController : MonoBehaviour
 
     private float health = 100;
 
+    private IEnumerator fireRoutine;
+
+    private bool isFiring;
+
+    private bool hasPistol, hasSMG;
 
     Vector3 childPos;
 
@@ -29,24 +37,40 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.A))
+        #region Controls
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
         {
             if (childPos.x > -strafDistance)
             {
                 childPos.x -= strafDistance;
             }
         }
-        else if (Input.GetKeyUp(KeyCode.D))
+        else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
         {
             if (childPos.x < strafDistance)
             {
                 childPos.x += strafDistance;
             }
         }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            isFiring = true;
+            if (fireRoutine == null)
+            {
+                fireRoutine = Fire();
+                StartCoroutine(fireRoutine);
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            isFiring = false;
+        }
+        #endregion
 
+        #region movement
         if (isAlive && GameManager.Instance.isPlayingGame)
         {
-            if (playerAnimator.GetInteger("State") < 1)
+            if (playerAnimator.GetInteger("State") < (int)AnimationState.RUN)
             {
                 playerAnimator.SetInteger("State", (int)AnimationState.RUN);
             }
@@ -60,6 +84,29 @@ public class PlayerController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, Time.deltaTime * speed);
             player.localPosition = Vector3.MoveTowards(player.localPosition, childPos, Time.deltaTime * speed);
         }
+        #endregion
+    }
+
+    private IEnumerator Fire()
+    {
+        float fireRate = Utilities.PistolFireRate;
+        while (isFiring)
+        {
+            var bull = Instantiate(bullet,GameManager.Instance.bulletsParent) as GameObject;
+            bull.transform.position = bulletSpawnPosition.position;
+            bull.transform.forward = bulletSpawnPosition.forward;
+
+            if (hasPistol)
+            {
+                fireRate = Utilities.PistolFireRate;
+            }
+            else if (hasSMG)
+            {
+                fireRate = Utilities.SMGFireRate;
+            }
+            yield return new WaitForSeconds(fireRate);
+        }
+        fireRoutine = null;
     }
 
     public void SetFirstWaypoint(Transform waypoint)
