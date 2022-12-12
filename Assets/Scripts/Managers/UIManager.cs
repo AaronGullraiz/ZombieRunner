@@ -118,6 +118,12 @@ public class UIManager : MonoBehaviour
                     settings.SetActive(true);
                     break;
                 }
+            case "Quit":
+                {
+                    PreferenceHandler.SavePrefs();
+                    Application.Quit();
+                    break;
+                }
             default:
                 break;
         }
