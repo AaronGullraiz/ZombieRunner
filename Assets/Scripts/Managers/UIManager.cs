@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     private GameObject menus, settings, gameplayUI, pauseMenu, gameEnd;
 
     [SerializeField]
-    private Text bestDistance, distanceText, healthText, gameEndDistanceText;
+    private Text bestDistance, distanceText, healthText, gameEndDistanceText, bulletsCount;
 
     [SerializeField]
     private Slider musicScroller, soundScroller;
@@ -42,6 +42,15 @@ public class UIManager : MonoBehaviour
     public void SetHealthText(float health)
     {
         healthText.text = "HEALTH: " + health;
+    }
+
+    public void SetBulletsCount(int count)
+    {
+        if (count < 0)
+        {
+            count = 0;
+        }
+        bulletsCount.text = "BULLETS: " + count;
     }
 
     private void Update()

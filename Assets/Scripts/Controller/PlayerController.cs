@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool isFiring;
 
     private bool hasPistol, hasSMG;
+    private int bulletsCount = 0;
 
     Vector3 childPos;
 
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             isFiring = true;
-            if (fireRoutine == null)
+            if (fireRoutine == null && bulletsCount>0)
             {
                 fireRoutine = Fire();
                 StartCoroutine(fireRoutine);
@@ -90,12 +91,13 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Fire()
     {
         float fireRate = Utilities.PistolFireRate;
-        while (isFiring)
+        while (isFiring && bulletsCount>0)
         {
             var bull = Instantiate(bullet,GameManager.Instance.bulletsParent) as GameObject;
             bull.transform.position = bulletSpawnPosition.position;
             bull.transform.forward = bulletSpawnPosition.forward;
-
+            bulletsCount--;
+            GameManager.Instance.uiManager.SetBulletsCount(bulletsCount);
             if (hasPistol)
             {
                 fireRate = Utilities.PistolFireRate;
@@ -106,6 +108,11 @@ public class PlayerController : MonoBehaviour
             }
             yield return new WaitForSeconds(fireRate);
         }
+        if (bulletsCount <= 0)
+        {
+            hasPistol = hasSMG = false;
+        }
+        isFiring = false;
         fireRoutine = null;
     }
 
@@ -124,6 +131,7 @@ public class PlayerController : MonoBehaviour
             {
                 health = 0;
                 isAlive = false;
+                GameManager.Instance.isPlayingGame = false;
                 playerAnimator.SetInteger("State", (int)AnimationState.DEATH);
 
                 Invoke("EndGame", 5);
@@ -135,5 +143,33 @@ public class PlayerController : MonoBehaviour
     private void EndGame()
     {
         GameManager.Instance.uiManager.ShowGameEnd();
+    }
+
+    public void SetWeapon(WeaponType weapon)
+    {
+        switch (weapon)
+        {
+            case WeaponType.PISTOL:
+                if(hasPistol)
+                    bulletsCount += Utilities.PistolBulets;
+                else
+                    bulletsCount = Utilities.PistolBulets;
+
+                hasPistol = true;
+                hasSMG = false;
+                break;
+            case WeaponType.SMG:
+                if(hasSMG)
+                    bulletsCount += Utilities.SMGBulets;
+                else
+                    bulletsCount = Utilities.SMGBulets;
+
+                hasPistol = false;
+                hasSMG = true;
+                break;
+            default:
+                break;
+        }
+        GameManager.Instance.uiManager.SetBulletsCount(bulletsCount);
     }
 }
