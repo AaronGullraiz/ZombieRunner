@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     public Transform bulletSpawnPosition;
     public GameObject bullet;
+    public GameObject pistolInHand,smgInHand;
+    public ParticleSystem bloodSplat, bloodPool;
 
     private bool isAlive = true;
     private Transform player;
@@ -53,7 +55,7 @@ public class PlayerController : MonoBehaviour
                 childPos.x += strafDistance;
             }
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             isFiring = true;
             if (fireRoutine == null && bulletsCount>0)
@@ -62,7 +64,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(fireRoutine);
             }
         }
-        if (Input.GetKeyUp(KeyCode.W))
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             isFiring = false;
         }
@@ -76,7 +78,6 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.SetInteger("State", (int)AnimationState.RUN);
             }
             var dist = Vector3.Distance(transform.position, currentWaypoint);
-            Debug.Log("Dist: " + dist);
             if (dist < 2.5f)
             {
                 currentWaypoint = GameManager.Instance.GetNextWaypoint().position;
@@ -97,6 +98,14 @@ public class PlayerController : MonoBehaviour
             bull.transform.position = bulletSpawnPosition.position;
             bull.transform.forward = bulletSpawnPosition.forward;
             bulletsCount--;
+            if (hasPistol)
+            {
+                GameManager.Instance.audioManager.PlaySoundEffect("pistolFire");
+            }
+            else
+            {
+                GameManager.Instance.audioManager.PlaySoundEffect("smgFire");
+            }
             GameManager.Instance.uiManager.SetBulletsCount(bulletsCount);
             if (hasPistol)
             {
@@ -111,6 +120,9 @@ public class PlayerController : MonoBehaviour
         if (bulletsCount <= 0)
         {
             hasPistol = hasSMG = false;
+            playerAnimator.SetInteger("State", (int)AnimationState.RUN);
+            smgInHand.SetActive(false);
+            pistolInHand.SetActive(false);
         }
         isFiring = false;
         fireRoutine = null;
@@ -126,15 +138,22 @@ public class PlayerController : MonoBehaviour
     {
         if (isAlive)
         {
+            bloodSplat.Play();
             health -= damage;
+            GameManager.Instance.uiManager.ShowHurtOverlay();
             if (health <= 0)
             {
                 health = 0;
                 isAlive = false;
                 GameManager.Instance.isPlayingGame = false;
                 playerAnimator.SetInteger("State", (int)AnimationState.DEATH);
-
+                bloodPool.Play();
                 Invoke("EndGame", 5);
+                GameManager.Instance.audioManager.PlaySoundEffect("Death");
+            }
+            else
+            {
+                GameManager.Instance.audioManager.PlaySoundEffect("Hurt");
             }
             GameManager.Instance.uiManager.SetHealthText(health);
         }
@@ -157,6 +176,9 @@ public class PlayerController : MonoBehaviour
 
                 hasPistol = true;
                 hasSMG = false;
+                playerAnimator.SetInteger("State", (int)AnimationState.RunWithGun);
+                pistolInHand.SetActive(true);
+                smgInHand.SetActive(false);
                 break;
             case WeaponType.SMG:
                 if(hasSMG)
@@ -166,6 +188,9 @@ public class PlayerController : MonoBehaviour
 
                 hasPistol = false;
                 hasSMG = true;
+                playerAnimator.SetInteger("State", (int)AnimationState.RunWithGun);
+                smgInHand.SetActive(true);
+                pistolInHand.SetActive(false);
                 break;
             default:
                 break;

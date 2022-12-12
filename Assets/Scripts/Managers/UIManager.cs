@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject menus, settings, gameplayUI, pauseMenu, gameEnd;
+    private GameObject menus, settings, gameplayUI, pauseMenu, gameEnd, hurtOverlay;
 
     [SerializeField]
     private Text bestDistance, distanceText, healthText, gameEndDistanceText, bulletsCount;
@@ -51,6 +51,11 @@ public class UIManager : MonoBehaviour
             count = 0;
         }
         bulletsCount.text = "BULLETS: " + count;
+    }
+
+    public void ShowHurtOverlay()
+    {
+        hurtOverlay.SetActive(true);
     }
 
     private void Update()

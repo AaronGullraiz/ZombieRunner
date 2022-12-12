@@ -32,6 +32,7 @@ public class SpawnedWeaponHandler : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponentInParent<PlayerController>().SetWeapon(weapon);
+            GameManager.Instance.audioManager.PlaySoundEffect("reload");
             Destroy(gameObject);
         }
     }

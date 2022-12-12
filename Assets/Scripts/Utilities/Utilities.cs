@@ -18,6 +18,7 @@ public enum AnimationState
     RUN = 1,
     DEATH = 2,
     ATTACK = 3,
+    RunWithGun = 4,
 }
 
 public enum WeaponType

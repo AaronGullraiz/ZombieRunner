@@ -10,11 +10,13 @@ public class ZombieController : MonoBehaviour
 
     public Collider collider;
 
+    public GameObject blood;
+
     private bool isAlive = true, isAttacking;
 
     void Update()
     {
-        if (isAlive)
+        if (GameManager.Instance.isPlayingGame && isAlive)
         {
             if (isAttacking)
             {
@@ -36,6 +38,7 @@ public class ZombieController : MonoBehaviour
         {
             isAttacking = true;
             anim.SetInteger("State", (int)AnimationState.ATTACK);
+            GameManager.Instance.audioManager.PlayZombieAttackSound();
         }
     }
 
@@ -43,10 +46,12 @@ public class ZombieController : MonoBehaviour
     {
         if (isAlive && collision.gameObject.CompareTag("Bullet"))
         {
+            blood.SetActive(true);
             isAlive = false;
             Destroy(collision.transform.parent.gameObject);
             anim.SetInteger("State", (int)AnimationState.DEATH);
             collider.enabled = false;
+            GameManager.Instance.audioManager.PlayZombieDeathSound();
         }
     }
 
